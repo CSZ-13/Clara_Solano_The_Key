@@ -6,7 +6,8 @@ public class Player_Controller : MonoBehaviour
     float horizontalMove;
     float verticalMove;
     CharacterController controller;
-
+    public float gravity = -9.81f;
+    public float verticalSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,9 +20,19 @@ public class Player_Controller : MonoBehaviour
     {
         horizontalMove = Input.GetAxis("Horizontal");
         verticalMove = Input.GetAxis("Vertical");
-        Vector3 direcction = new Vector3(horizontalMove, 0, verticalMove);
+
+        if (controller.isGrounded == true)
+        {
+            verticalSpeed = 0f;
+            if (Input.GetKeyDown(KeyCode.Space)) 
+            {
+                verticalSpeed = 3f;   
+            }
+        }
+        verticalSpeed += gravity * Time.deltaTime;
+
+        Vector3 direcction = new Vector3(horizontalMove, verticalSpeed, verticalMove);
         controller.Move(direcction * speed * Time.deltaTime);
     }
-
 
 }
