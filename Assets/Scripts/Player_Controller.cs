@@ -10,6 +10,7 @@ public class Player_Controller : MonoBehaviour
     public float gravity = -9.81f;
     public float verticalSpeed;
     public int collectible;
+    
 
     string collected;
     public TextMeshProUGUI scoreText;
@@ -45,12 +46,17 @@ public class Player_Controller : MonoBehaviour
     {
         if (hit.gameObject.CompareTag("Collectible"))
         {
+            Collectable_Controller collectable = hit.gameObject.GetComponent<Collectable_Controller>();
             collectible++;
-            Debug.Log(collectible);
-            Destroy(hit.gameObject);
+            if (collectable.isCollected == false)
+            {
+                collectable.isCollected = true;
+                Debug.Log(collectible);
+                Destroy(hit.gameObject);
 
-            collected = "x" + collectible;
-            scoreText.text = collected;
+                collected = "x" + collectible;
+                scoreText.text = collected;
+            }
         }
 
         Debug.Log("Collided with: " + hit.gameObject.name);
